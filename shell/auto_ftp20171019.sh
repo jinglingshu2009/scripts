@@ -13,7 +13,7 @@ ftp_up_down ()
 		#echo "Funtion ftp_up_down $4 error !!!"
 		mkdir $4
 	  fi	
-ftp -i -n $1  2>$error_log <<_EOF_
+ftp -i -n $1 $ftp_port  2>$error_log <<_EOF_
     user  $2  $3
     lcd $4
     put $5
@@ -26,7 +26,7 @@ _EOF_
 
 ftp_delete()
 {
-ftp -i -n $1 2>$error_log <<_EOF_
+ftp -i -n $1 $ftp_port  2>$error_log <<_EOF_
     user $2 $3
     lcd $4
     delete $5
@@ -58,6 +58,7 @@ error_log=/tmp/ftp_error
 mode=ftp_single_loop
 ftp_address="172.168.100.2"
 ftp_user="test1@testa test2@testa"   ftp_passwd=123qwe
+ftp_port=21    #ftp port 
 local_path=/tmp/.ftp/
 get_path=/tmp/.ftp/get
 ftp_loop=10000000
