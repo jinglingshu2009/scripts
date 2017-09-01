@@ -32,6 +32,7 @@ _passwd=123qwe
 _end=100
 log=$0.log
 ping_num=10
+#####################################################
 if [ ! -f ".a" ];then
    echo "1" >.a && rm -rf $0.log
    fi

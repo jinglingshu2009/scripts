@@ -35,6 +35,6 @@ while [ $i -lt 100 ]
 	            }
 #progress_3 
 #########################################
-progress_1 intall  apache
-#progress_2  apache
+time progress_1 intall  apache
+#progress_2 
 #progress_3

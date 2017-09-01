@@ -1,15 +1,15 @@
 #!/bin/bash
 #Auto_iperf was written by CyberXingan Test in 2017-10-11.
 #############################
-send_ip=172.168.1.2
+send_ip=192.168.126.134
 _run_number=1
-_print_interval=1800		#日志打印间隙(print log time)
-_threads=5			#发送客户端线程数，默认为1
+_print_interval=1			#日志打印间隙(print log time)
+_threads=10					#发送客户端线程数，默认为1
 _udp_bandwidth_switch=yes	#UDP协议带宽开关 yes|no(关闭后默认1Mbits/sec)
-_udp_speed=20			#UDP协议传输速度,单位Mbits/sec
-_run_day=5
-_run_hours=
-port=1222			#设置iperf传输端口，默认传输端口为16100
+_udp_speed=15				#UDP协议传输速度,单位Mbits/sec
+_run_day=
+_run_hours=1
+port=17100					#设置iperf传输端口，默认传输端口为16100
 log=$1.log
 #############################
 if [ ! -n "$_run_day" ];then 
@@ -124,11 +124,7 @@ case $1 in
 			 	     echo "A-->B:B:udp:$udp_pid:$i:$udp_log" 2>&1 >>$log
 			 	  done
 			    else
-				for _pid in `cat /tmp/._$1_pid`
-				  do   
-					kill -9 $_pid  2>&1  >>/dev/null
-				done
-				exit
+				  exit
 			   fi
 		    done
 				;;
