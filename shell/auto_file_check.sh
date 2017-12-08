@@ -6,8 +6,15 @@ check_file () {
 		echo "check_file  1=dst_dir/src_dir 2=AA/BB"
 		exit
 	fi
-	rm -rf /tmp/.tmp_file_list
+	rm -rf /tmp/.tmp_file_list /tmp/.file_name_list
 	find $1 -type f -amin +2 |grep -i "$file_type" >>/tmp/.tmp_file_list
+	for  file_name in `cat /tmp/.tmp_file_list` #获取文件名称
+	  do
+		  basename $file_name >>/tmp/.file_name_list
+	  done
+	  rm -rf /tmp/.tmp_file_list
+	  sort -t- -k1 -n /tmp/.file_name_list>>/tmp/.tmp_file_list  #对文件名称进行排序
+
 case $2 in
 	AA)
 	  if [ $synctype_del == yes ];then
@@ -15,8 +22,8 @@ case $2 in
 	  else
 		   for list in `cat /tmp/.tmp_file_list`
 		    do
-			rm -rf $list &
-			echo "`date +%F====%T`	$list	Delete	ok!!!"   >>$_sys_log
+			rm -rf $1/$list &
+			echo "`date +%F====%T`	$1/$list	Delete	ok!!!"   >>$_sys_log
 	  	   done
 		   
 	  fi
@@ -26,19 +33,19 @@ case $2 in
 			
 	   		for list in `cat /tmp/.tmp_file_list`
 			 do
-		   	  rm -rf $list &
-		   	  echo "$list	Delete	ok!!!"   >>$_sys_log
+		   	  rm -rf $1/$list &
+		   	  echo "$1/$list	Delete	ok!!!"   >>$_sys_log
 			done
 		  else
 	   		for list in `cat /tmp/.tmp_file_list`
 		   	 do
-			   src_md5=`basename $list|awk -F. '{print $1}'|awk -F- '{print $2}'`
-		   	    get_md5 $list $file_md5_check
+			   src_md5=`echo $list|awk -F. '{print $1}'|awk -F- '{print $2}'`
+		   	    get_md5 $1/$list $file_md5_check
 			    if [ $src_md5 == $get_md5 ];then
-			        rm -rf $list &
-			        echo "`date +%F====%T`	$list	Delete	ok!!!"   >>$_sys_log
+			        rm -rf $1/$list &
+			        echo "`date +%F====%T`	$1/$list	Delete	ok!!!"   >>$_sys_log
 			    else
-			        echo "`date +%F====%T`	$list	Error	ok!!!"   >>$_sys_log
+			        echo "`date +%F====%T`	$1/$list	Error	ok!!!"   >>$_sys_log
 		   	    fi
 			done
 		     fi
@@ -70,19 +77,19 @@ get_md5  () {
 	fi
 }
 ##############################################################
-touch_number=10000000
-d_dir_a=/home/file_send/SGG-send1   #Destination directory AA
-d_dir_b=/home/file_recv/SGG-recv1   #Destination directory BB
+touch_number=10000
+d_dir_a=/test/recv   #Destination directory AA
+d_dir_b=/test/recv   #Destination directory BB
 touch_file_mode=random  #dd:创建固定大小文件   random:创建随即大小文件
 file_size=11  #mb    #dd模式生效，固定文件大小
 dd_speed=no #mb    #dd模式生效，快速生成 开启:yes,关闭:no
-file_size_random=3  #random模式生效，随机文件随即范围1=0-10k 2=0-100k 3=0-1000K 4=0-10M
+file_size_random=2  #random模式生效，随机文件随即范围1=0-10k 2=0-100k 3=0-1000K 4=0-10M
 file_type=rar
 file_md5_check=1    #0:关闭文件md5检查   1:开启文件MD5检查
 _disk_drive=boot    #监控目录
 _disk_alert=70  	#磁盘警戒值（使用率）
 synctype_del=yes    #yes:源端删除策略 no:非源端删除策略
-_sleep=120           #Check the alert value for a cycle of sleep.
+_sleep=30           #Check the alert value for a cycle of sleep.
 _sys_log=sys.log
 ##############################################################
 A='Loop create file'
@@ -145,7 +152,7 @@ case $1 in
 				fi
 				if [ $usage -ge $_disk_alert ];then #获取已使用空间大于警戒值则执行删除
 					check_file  $d_dir_b  BB
-				elif [ $usage_wc -ge 100000 ];then  #获取目录文件数目大于10w执行删除动作
+				elif [ $usage_wc -ge 1000 ];then  #获取目录文件数目大于10w执行删除动作
 					check_file  $d_dir_b  BB
 				fi
 			done
