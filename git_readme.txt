@@ -1,5 +1,6 @@
 GIT 使用说明
-
+ssh-keygen -t rsa -C "youremail@example.com" :创建SSH Key	id_rsa.pub是公钥,
+登陆GitHub，打开“Account settings”，“SSH Keys”页面：然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容
 git add file				:添加文件或目录到临时工作区.
 git commit -m "备注信息"    :将临时工作区文件进行提交并添加备注说明信息.
 git status					:查看临时工作区或文件的目前状态.
