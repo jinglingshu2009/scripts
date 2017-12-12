@@ -57,8 +57,8 @@ error_log=/tmp/ftp_error
 #eg:send(ftp client)----->sproxy--cproxy---->recv(ftp server)
 mode=ftp_single_loop
 ftp_address="172.168.100.2"
-ftp_user="test1@testa test2@testa"   ftp_passwd=123qwe
-ftp_port=21    #ftp port 
+ftp_user="test1@testd  test2@testa"   ftp_passwd=123qwe
+ftp_port=21    #ftp default port 
 local_path=/tmp/.ftp/
 get_path=/tmp/.ftp/get
 ftp_loop=10000000
