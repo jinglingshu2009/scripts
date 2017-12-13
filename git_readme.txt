@@ -19,5 +19,6 @@ git log  --pretty=oneline   :以简洁模式显示git日志信息.
 git push 	:推送本地更新到远程github服务器中
 git pull 	:更新本地
 
-
+git reset --hard xxxxxxx     :回退到指定版本
+git revert -n xxxxxxx        :用一次新的commit来回滚到之前的commit
 
