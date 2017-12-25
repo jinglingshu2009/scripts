@@ -1,0 +1,251 @@
+#!/bin/bash
+
+#version: 1.0.1
+
+RXBYTES=1
+TXBYTES=9
+RXPKTS=2
+TXPKTS=10
+
+rxbytes_o=""
+txbytes_o=""
+rxpkts_o=""
+txpkts_o=""
+rxbytes_n=""
+txbytes_n=""
+rxpkts_n=""
+txpkts_n=""
+
+tm_o=""
+tm_n=""
+
+out_usage()
+{
+    echo "Usage: ${0} interface_name [interval]"
+    echo "Display network interface RX/TX speed"
+}
+
+diff_time_ms()
+{
+    ms=0;
+
+    if [ "$#" -eq "2" ]; then
+        start_s=`echo $1 | cut -d '.' -f 1`
+        start_ns=`echo $1 | cut -d '.' -f 2`
+        stop_s=`echo $2 | cut -d '.' -f 1`
+        stop_ns=`echo $2 | cut -d '.' -f 2`
+
+        start_ms=$(( 10#${start_ns} / 1000000 ))
+        stop_ms=$(( 10#${stop_ns} / 1000000 ))
+
+        if [ ${stop_ms} -lt ${start_ms} ]; then
+            stop_s=$(( ${stop_s} - 1 ))
+            stop_ms=$(( 1000 + $stop_ms ))
+        fi
+
+        if [[ ${stop_s} -ge ${start_s} ]]; then
+            diff_s=$(( ${stop_s} - ${start_s} ))
+            diff_ms=$(( ${stop_ms} - ${start_ms} ))
+            diff_s=$(( 10#${diff_s} * 1000 ))
+            ms=$(( (10#${diff_s} + 10#${diff_ms}) ))
+        fi
+    fi
+
+    echo ${ms}
+}
+
+get_cur_time()
+{
+    tm=`date +%s.%N | sed 's/\.%N/\.0/'`
+    echo ${tm}
+}
+
+get_if_info()
+{
+    info=""
+
+    if [ "$#" = "1" ]; then
+        info=`cat /proc/net/dev | grep "${1}:" | sed 's/^.\+:\(.\+\)$/\1/'`
+    fi
+
+    echo ${info}
+}
+
+get_num_from_line()
+{
+    num=""
+
+    if [ "$#" -eq 2 ]; then
+        num=`printf "%s\n" "$1" | awk -v pos=${2} '{print $pos}'`
+    fi
+
+    if [ -z "${num}" ]; then
+        num=0
+    fi
+
+    echo ${num}
+}
+
+format_byte_speed()
+{
+    rate=""
+    int=""
+    rem="0"
+    unit=""
+     suffix=""
+
+    if [ "$#" = "2" ]; then
+        rate=$(( (10#${1} * 1000) / 10#${2} ))
+        if [ "${rate}" -ge 1000000 ]; then
+            suffix="MBps"
+     		unit=1000000
+            int=$(( 10#${rate} / 1000000 ))
+        elif [ "${rate}" -ge 1000 ]; then
+            suffix="KBps"
+     		unit=1000
+            int=$(( 10#${rate} / 1000 ));
+        else
+            int=${rate}
+            suffix="Bps"
+     		unit=1
+        fi
+
+     	rem=$(( (10#${1} * 1000) - (10#${int} * 10#${unit} * 10#${2}) ))
+     	rem=$(( (1000 * 10#${rem}) / (10#${unit} * 10#${2}) ))
+    fi
+
+     printf "%3s.%03d%4s\n" ${int} ${rem} ${suffix}
+}
+
+format_bit_speed()
+{
+    rate=""
+    int=""
+    rem="0"
+    unit=""
+    suffix=""
+    bitlen=0
+
+    if [ "$#" = "2" ]; then
+        bitlen=$(( 10#${1} * 8 ))
+        rate=$(( (10#${bitlen} * 1000) / 10#${2} ))
+        if [ "${rate}" -ge 1000000 ]; then
+            suffix="Mbps"
+     		unit=1000000
+            int=$(( 10#${rate} / 1000000 ))
+        elif [ "${rate}" -ge 1000 ]; then
+            suffix="Kbps"
+     		unit=1000
+            int=$(( 10#${rate} / 1000 ));
+        else
+            int=${rate}
+            suffix="bps"
+     		unit=1
+        fi
+
+     	rem=$(( (10#${bitlen} * 1000) - (10#${int} * 10#${unit} * 10#${2}) ))
+     	rem=$(( (1000 * 10#${rem}) / (10#${unit} * 10#${2}) ))
+    fi
+
+    printf "%3s.%03d%4s\n" ${int} ${rem} ${suffix}
+}
+
+format_pkt_speed()
+{
+    rate=""
+    int=""
+    rem=""
+    unit=""
+
+    if [ "$#" = "2" ]; then
+        int=$(( (10#${1} * 1000) / 10#${2} ))
+        rem=$(( (10#${1} * 1000) - (10#${int} * 10#${2}) ))
+        rem=$(( (10#${rem} * 1000) / 10#${2} ))
+    fi
+
+    printf "%6s.%03d%s\n" ${int} ${rem} "pps"
+}
+
+diff_int_value()
+{
+     val=0
+     
+     if [ "$#" = "2" ]; then
+     	if [ "$1" -lt "$2" ]; then
+     		val=$(( 4294967295 - 10#${2} + 10#${1} ))
+     	else
+     		val=$(( 10#${1} - 10#${2} ))
+     	fi
+     fi
+     
+     echo ${val}
+}
+
+compute_if_rate()
+{
+    ts=$(diff_time_ms "${tm_o}" "${tm_n}")
+    if [ "${ts}" -gt 0 ]; then
+        val=$(diff_int_value ${rxbytes_n} ${rxbytes_o} )
+        rxrate=$(format_bit_speed "${val}" "${ts}")
+        val=$(diff_int_value ${txbytes_n} ${txbytes_o} )
+        txrate=$(format_bit_speed "${val}" "${ts}")
+        val=$(diff_int_value ${rxpkts_n}  ${rxpkts_o} )
+        rxpkts=$(format_pkt_speed "${val}" "${ts}")
+        val=$(diff_int_value ${txpkts_n} ${txpkts_o} )
+        txpkts=$(format_pkt_speed "${val}" "${ts}")
+
+        fmt="%s[%s] | RX:\033[32m[%s]\033[0m[%s] --- TX:\033[33m[%s]\033[0m[%s]\n"
+        printf "${fmt}" `date +%T` "${ts}" "${rxrate}" "${rxpkts}" "${txrate}" "${txpkts}"
+    fi
+}
+
+update_if_data()
+{
+    ret=0
+    rxbytes_o=${rxbytes_n}
+    rxpkts_o=${rxpkts_n}
+    txbytes_o=${txbytes_n}
+    txpkts_o=${txpkts_n}
+
+    tm_o=${tm_n}
+    tm_n=$(get_cur_time)
+
+    info=$(get_if_info ${1})
+    if [ -n "${info}" ]; then
+        rxbytes_n=$(get_num_from_line "${info}" "${RXBYTES}")
+        txbytes_n=$(get_num_from_line "${info}" "${TXBYTES}")
+        rxpkts_n=$(get_num_from_line "${info}" "${RXPKTS}")
+        txpkts_n=$(get_num_from_line "${info}" "${TXPKTS}")
+    else
+        echo "Failed to get interface["${1}"] information"
+        ret=1
+    fi
+
+    return ${ret}
+}
+
+
+##main entrance
+if [ "$#" = "1" -o "$#" = "2" ]; then
+    update_if_data ${1}
+
+     idle=1
+     if [ "$#" = "2" ]; then
+     	idle=$2
+     fi
+
+     ret=0
+    while [ "${ret}" = "0" ]
+    do
+        sleep ${idle}
+        update_if_data ${1}
+        compute_if_rate
+    done
+else
+    out_usage
+fi
+
+exit 0
+
+
+
