@@ -1,0 +1,11 @@
+declare
+i int;
+begin
+i :=0;
+while (i<100000)
+loop
+i :=i+1;
+insert into cscscs (id,name,name1,name2,name3,name4) values (i,'ÎÒ°®Äã','ÎÒ°®Äã','ÎÒ°®Äã','ÎÒ°®Äã','ÎÒ°®Äã');
+end loop;
+commit;
+end;
