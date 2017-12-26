@@ -39,3 +39,8 @@ git revert -n xxxxxxx        :用一次新的commit来回滚到之前的commit
 合并某分支到当前分支：git merge name
 删除分支：git branch -d name
 删除远程分支：git push origin :name
+删除远程分支：git push --delete origin name
+重命名本地分支：git branch -m name new_name
+推送本地分支：git branch  origin name
+推送本地tag到远程：git push --tags
+获取远程tag：git fetch origin tay <tagname>
