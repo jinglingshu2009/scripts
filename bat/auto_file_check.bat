@@ -123,8 +123,10 @@ goto LOCAL
 				) 
 			  ) else ( echo %free% > %_disk_alert% >nul )
 		::del md5_dst
-		del md5_dst 2>&1 >nul
-		echo %wc% please wait for the next inspection cycle(%_sloop%s).....
+		dir %d_dir_b% /b/a-d/a-h/a-s/od/tc>.file.ini
+		set /P file_number=<.file.ini
+		del md5_dst .file.ini 2>&1 >nul
+		echo %wc% please wait for the next inspection cycle(File:%file_number%)(Disk_free:%free%)(%_sloop%s).....
 		ping -n %_sloop% 127.0.0.1 2>&1 >nul
 		GOTO B
 :C
