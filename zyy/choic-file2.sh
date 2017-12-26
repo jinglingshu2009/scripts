@@ -10,7 +10,8 @@ local6=e:/zyy/5M-6M
 local7=e:/zyy/6M-7M
 local8=e:/zyy/大于7M
 id=1
-mkdir  $local1 $local2 $local3 $local4 $local5 $local6 $local7 $local8
+mkdir -p  $local1 $local2 $local3 $local4 $local5 $local6 $local7 $local8
+exit
 for file_name in `cat xiaoguo-ok.list`
 do
 	file_size=`du $file_name|awk '{print $1}'`
