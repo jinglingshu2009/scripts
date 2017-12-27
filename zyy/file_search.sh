@@ -7,6 +7,7 @@ get_name () {
 get_dir () {
   get_dir=`dirname $1`
   }
+
 mk_dir () {
    if [ ! -d "$1" ];then
 	   mkdir  -p "$1"
