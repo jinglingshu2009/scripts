@@ -9,7 +9,7 @@ begin
          i:=0;
          while i<10 loop --创建表数目
          begin
-             tbname := cyberinfo'||to_char(i);   --表名称cyberinfo
+             tbname := 'cyberinfo'||to_char(i);   --表名称cyberinfo
              i := i+1;
 
              select count(1) into tmpcount from user_tables where table_name = Upper(tbname);
