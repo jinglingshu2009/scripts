@@ -10,6 +10,7 @@ pyinstall
 安装 pip.exe install pyinstaller 
 http://legendtkl.com/2015/11/06/pyinstaller/
 https://www.jianshu.com/p/5a59b6985346
+http://www.361way.com/pyinstaller-exe/5247.html
 
 pyinstaller 
 -F      script.py #指定打包后只生成一个exe格式文件
