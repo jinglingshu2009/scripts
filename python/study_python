@@ -14,6 +14,7 @@ https://www.jianshu.com/p/5a59b6985346
 pyinstaller 
 -F      script.py #指定打包后只生成一个exe格式文件
 -D	–onedir 创建一个目录，包含exe文件，但会依赖很多文件（默认选项）
+-d 	--debug 生成debug模式的exe文件
 -c	–console, –nowindowed 使用控制台，无界面(默认)
 -w	–windowed, –noconsole 使用窗口，无控制台
 -X	--upx	使用upx压缩exe文件
