@@ -2,12 +2,14 @@
 case 	$1 in
  	home)
 		run_python=c:/python27/python.exe
-		install_python=c:/python27/Scripts/cxfreeze
+		install_python=c:/python27/Scripts/pyinstaller
+		#install_python=c:/python27/Scripts/cxfreeze
 		install_dir=makefile
 	;;
  	cyber)
 		run_python=c:/python27/python.exe
-		install_python=c:/python27/Scripts/cxfreeze
+		install_python=c:/python27/Scripts/pyinstaller
+		#install_python=c:/python27/Scripts/cxfreeze
 		install_dir=makefile
 	;;
 	*)
@@ -38,6 +40,11 @@ case	$2 in
 			#第 3 种打包方式(打包生成可安装包文件程序)
 			#start $run_python setup.py bdist_msi 
 			#将hello.py文件打包到install_dir目录下，仅仅生成hello.exe程序
+			
+			#第 4 种打包方式(可安装包文件程序)
+			start $install_python  -F -p `dirname $run_python` -i a.ico $3 
+
+
 		fi
 	;;
 	*)
