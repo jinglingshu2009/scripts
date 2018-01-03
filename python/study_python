@@ -16,6 +16,9 @@ pyinstaller
 -D	–onedir 创建一个目录，包含exe文件，但会依赖很多文件（默认选项）
 -c	–console, –nowindowed 使用控制台，无界面(默认)
 -w	–windowed, –noconsole 使用窗口，无控制台
+-X	--upx	使用upx压缩exe文件
+-o	DIR, --out=DIR 设置spec文件输出的目录，默认在PyInstaller同目录
+-v	FILE, --version=FILE 加入版本信息文件
 -p	添加搜索路径，让其找到对应的库。
 -i	改变生成程序的icon图标
 
