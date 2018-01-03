@@ -1,2 +1,30 @@
 cx_freeze打包
 http://blog.csdn.net/wangdamozhizhou/article/details/18135889
+
+cx_freeze python.py --target-dir  d:/dst_dir  #打包成exe程序和相关联依赖
+cx_freeze python.py --target-dir  d:/dst_dir --no-copy-deps  #打包成exe程序不含相关联依赖
+cx_freeze setup.py  bdist_msi                 #打包生成可安装的单独文件
+
+pyinstall 
+
+安装 pip.exe install pyinstaller 
+http://legendtkl.com/2015/11/06/pyinstaller/
+https://www.jianshu.com/p/5a59b6985346
+
+pyinstaller 
+-F      script.py #指定打包后只生成一个exe格式文件
+-D	–onedir 创建一个目录，包含exe文件，但会依赖很多文件（默认选项）
+-c	–console, –nowindowed 使用控制台，无界面(默认)
+-w	–windowed, –noconsole 使用窗口，无控制台
+-p	添加搜索路径，让其找到对应的库。
+-i	改变生成程序的icon图标
+
+实例：
+1	生成文件中，可能包含一个以warn开头的类似warndemo.txt的警告文件
+	这很明显，是因为程序无法自动导入很多的库
+	使用-p参数添加搜索路径
+	pyinstaller.py -F -p C:\python27; ..\demo.py  #注意当前目录是我在下一级目录里
+
+2.	添加icon图标
+	pyinstaller.py -F -p C:\python27; -i ..\a.ico ..\demo.py
+
