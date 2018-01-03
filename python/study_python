@@ -23,8 +23,8 @@ pyinstaller
 1	生成文件中，可能包含一个以warn开头的类似warndemo.txt的警告文件
 	这很明显，是因为程序无法自动导入很多的库
 	使用-p参数添加搜索路径
-	pyinstaller.py -F -p C:\python27; ..\demo.py  #注意当前目录是我在下一级目录里
+     eg:pyinstaller.py -F -p C:\python27; ..\demo.py  #注意当前目录是我在下一级目录里
 
 2.	添加icon图标
-	pyinstaller.py -F -p C:\python27; -i ..\a.ico ..\demo.py
+      eg:pyinstaller.py -F -p C:\python27; -i ..\a.ico ..\demo.py
 
