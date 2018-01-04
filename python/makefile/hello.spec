@@ -22,8 +22,8 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           name='hello',
-          debug=True,
+          debug=False,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
-          console=True , icon='a.ico')
+          console=True , version='version_info', icon='b.ico')

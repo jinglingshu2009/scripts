@@ -43,7 +43,7 @@ case	$2 in
 			
 			#第 4 种打包方式(可安装包文件程序)
 			name_py=`basename $3|awk -F. '{ print $1}'`
-			start $install_python   -p `dirname $run_python` -i b.ico -F $3  --clean 
+			start $install_python   -p `dirname $run_python` -i b.ico -F $3  --clean --version-file=version_info 
 
 
 		fi
