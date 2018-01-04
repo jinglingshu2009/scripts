@@ -13,13 +13,13 @@ case 	$1 in
 		install_dir=makefile
 	;;
 	*)
-		echo "$0 {home|cyber} 	{run|install}	python-script " && exit
+		echo "$0 {home|cyber} 	{run|install|debug}	python-script " && exit
 	;;
 esac
 case	$2 in
 	run)
 		if [ ! $3 ];then
-			echo "$0 {home|cyber} 	{run|install}	python-script"
+			echo "$0 {home|cyber} 	{run|install|debug}	python-script"
 		else
 			start $run_python $3
 		fi
@@ -27,7 +27,7 @@ case	$2 in
 	;;
 	install) 
 		if [ ! $3 ];then
-			echo "$0 {home|cyber} 	{run|install}	python-script"
+			echo "$0 {home|cyber} 	{run|install|debug}	python-script"
 		else
 			#第 1 种打包方式(打包成exe程序和相关依赖)
 			#start $install_python $3 --target-dir $install_dir 
@@ -42,12 +42,20 @@ case	$2 in
 			#将hello.py文件打包到install_dir目录下，仅仅生成hello.exe程序
 			
 			#第 4 种打包方式(可安装包文件程序)
-			start $install_python  -F -p `dirname $run_python` -i a.ico $3 
+			name_py=`basename $3|awk -F. '{ print $1}'`
+			start $install_python   -p `dirname $run_python` -i b.ico -F $3  --clean 
 
 
 		fi
 	;;
+	debug)
+		if [ ! $3 ];then
+			echo "$0 {home|cyber} 	{run|install|debug}	python-script"
+		else
+			start $install_python   -p `dirname $run_python` -i a.ico -F $3  -d --clean 
+		fi
+	;;
 	*)
-		echo "$0 {home|cyber} 	{run|install}	python-script " && exit
+		echo "$0 {home|cyber} 	{run|install|debug}	python-script " && exit
 	;;
 esac

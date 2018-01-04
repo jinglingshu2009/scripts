@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['..\\hello.py'],
-             pathex=['c:/python27', 'D:\\scripts\\python\\makefile'],
+             pathex=['c:/python27', 'D:\\github\\scripts\\python\\makefile'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -22,7 +22,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           name='hello',
-          debug=False,
+          debug=True,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
