@@ -10,14 +10,16 @@
 			\"Password:\" {send \"$3\r\"; exp_continue} 
             \"root@\" {send \"$4\r exit\r\"; exp_continue} 
 	} 
-	" >>/tmp/.ssh_tmp
+	" >/tmp/.ssh_tmp
      _wc=`wc -l /tmp/.ssh_tmp|awk '{print $1}'`
-	 _choic=`tail -n 1  /tmp/.ssh_tmp|grep -wq "exit" && echo "yes" ||echo "no"`
+	 _choic=`tail -n 1  /tmp/.ssh_tmp|grep -wq "closed" && echo "yes" ||echo "no"`
+	# _choic=`cat /tmp/.ssh_tmp|grep -wq "exit" && echo "yes" ||echo "no"`
 	 if [ "$_wc" -lt "5" ];then
        rm -rf /tmp/.ssh_tmp && exit
-	 elif [ "$_choic" == "yes" ];then
+   fi
+	 if [ "$_choic" == "yes" ];then
 		 sed -n '5,'$(($_wc-5))'p' /tmp/.ssh_tmp  && rm -rf /tmp/.ssh_tmp
-		 echo $_choic
+		 #echo $_choic
 	 else
 		 sed -n '5,'$(($_wc-3))'p' /tmp/.ssh_tmp  && rm -rf /tmp/.ssh_tmp
 	     fi
