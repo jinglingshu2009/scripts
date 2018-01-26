@@ -1,0 +1,51 @@
+开机：virsh start vm
+关机：virsh shutdown vm 如果不生效，需要在 vm 中执行：yum install -y acpid
+强关：virsh destroy vm
+删除：virsh undefine vm
+定义：virsh define vm
+挂起：virsh suspend vm
+恢复：virsh resume vm
+
+虚拟机列表：virsh list
+包含关机的虚机：virsh list --all
+设置自动启动：virsh autostart vm
+关闭自动启动：virsh autostart --disable vm
+登陆虚机控制台：virsh console vm  # 只对指定了console的虚机才管用，方式一
+退出虚机控制台：ctrl + ]
+
+以下操作需要关机操作
+克隆虚拟机:virt-clone --original vm1 --name vm1 --file /data/kvm/vm2.qcow2
+虚拟机快照:  virsh snapshot-create vm
+查看快照列表：virsh snapshot-list vm
+查看镜像的快照信息: qemu-img info
+切换快照：virsh snapshot -revert vm 1477285698
+查看当前快照：virsh snapshot-current vm
+删除快照：virsh snapshot-delete vm 1477285698
+快照文件存储路径：/var/lib/libvirt/qemu/snapshot
+
+#安装虚拟机
+1. 创建虚拟机镜像
+关于虚拟机镜像，有很多种类型：raw、qcow2、vmdk等，我们推荐使用 qcow2 格式的镜像，因为 qcow2 格式的镜像支持快照，使用的比较广泛。在创建虚拟机之前需要手动去创建 qcow2 格式的镜像磁盘文件，以供安装虚拟机时使用。按照如下命令进行创建：
+qemu-img create -f qcow2 -o preallocation=metadata /data/kvm/vm.qcow2 50G
+
+2.执行虚拟机安装
+
+安装方式一：通过网络镜像安装，文本控制台，无vnc支持。
+virt-install --name liwei01 --ram 1024 --vcpus 1 \ -f /data/kvm/liwei01.qcow2 --os-type linux \ --os-variant rhel6 --network bridge=br0 \ --graphics none --console pty,target_type=serial \ --location 'http://mirrors.163.com/centos/6.8/os/i386/' \ --extra-args 'console=ttyS0,115200n8 serial'
+
+安装方式二：通过网络镜像安装，支持 vnc ，默认无文本控制台。
+virt-install --name liwei01 --ram 1024 --vcpus 1 \ -f /data/kvm/liwei01.qcow2 --os-type linux \ --os-variant rhel6 --network bridge=br0 \ --graphics vnc,listen=0.0.0.0,port=5920 \ --location 'http://mirrors.163.com/centos/6.8/os/i386/'
+
+安装方式三：通过 iso 镜像实现本地安装，支持 vnc ，无文本控制台。
+virt-install --name liwei01 --ram 1024 --vcpus 1 \ -f /data/kvm/liwei01.qcow2 --os-type linux \ --os-variant rhel6 --network bridge=br0 \ --cdrom CentOS-6.8-i386-minimal.iso \ --graphics vnc,listen=0.0.0.0,port=5920
+
+安装方式四：通过基础镜像模板快速安装(拷贝)
+创建镜像文件：
+[root@kvm ~]# qemu-img create -f qcow2 /data/kvm/liwei.qcow2 50G
+# 通过 liwei.qcow2 安装虚拟机 ... 安装完毕.
+[root@kvm ~]# cp /data/kvm/liwei.qcow2 /data/kvm/liwei01.qcow2
+安装命令：
+# 以拷贝的 liwei01.qcow2 为模板进行安装，安装方式是从 liwei01.qcow2 镜像启动
+[root@kvm ~]# virt-install --name liwei01 --ram 1024 --vcpus=1 \ --disk /data/kvm/liwei01.qcow2,format=qcow2,bus=virtio \ --network bridge=br0 --graphics vnc,listen=0.0.0.0,port=5904 \ --boot hd
+
+
