@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['hello.py'],
-             pathex=['D:\\scripts\\python'],
+             pathex=['c:/python27', 'D:\\github\\scripts\\python'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -22,8 +22,8 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           name='hello',
-          debug=False,
+          debug=True,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
-          console=True )
+          console=True , icon='a.ico')
