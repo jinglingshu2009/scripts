@@ -5,12 +5,14 @@ import sys
 import os
 import wmi
 import time
+import platform
 
 def SYS_OS():
     c = wmi.WMI()
+    _sys_os  = platform.platform();
     for sys in c.Win32_OperatingSystem():
-        print "获取操作系统信息"
-        print u"SYS_OS:",platform.platfrom(sys),sys.OSArchitecture.encode("UTF-8"),sys.BuildNumber;
+        #print "获取操作系统信息",platform.platform(sys);
+        print "SYS_OS:",_sys_os,sys.OSArchitecture.encode("UTF-8");
         # print  sys.OSArchitecture.encode("UTF8")#系统是32位还是64位的
         # print sys.NumberOfProcesses #当前系统运行的进程总数
 
