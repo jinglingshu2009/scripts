@@ -32,13 +32,13 @@ VSVersionInfo(
       StringTable(
         u'040904b0',
         [StringStruct(u'CompanyName', u'SXK Computer, Inc.'), #版权
-        StringStruct(u'FileDescription', u'Hello automated testing emulator for Windows (Viewer)'), #文件说明
+        StringStruct(u'FileDescription', u'get_systeminfo.py automated testing emulator for Windows (Viewer)'), #文件说明
         StringStruct(u'FileVersion', u'1,0,0,0'), #文件版本
-        StringStruct(u'InternalName', u'Hello'),  #产品名称
+        StringStruct(u'InternalName', u'get_systeminfo.py'),  #产品名称
         StringStruct(u'LegalCopyright', u'Copyright (C) 2017 SXK Computer, Inc. All rights reserved.'), #版权
         StringStruct(u'LegalTrademarks', u'Automated(R) is the registered trademark of SXK Computer, Inc.'), #合法商标
-        StringStruct(u'OriginalFilename', u'Hello.exe'), #原始文件名称
-        StringStruct(u'ProductName', u'Hello'), #产品名称
+        StringStruct(u'OriginalFilename', u'get_systeminfo.py.exe'), #原始文件名称
+        StringStruct(u'ProductName', u'get_systeminfo.py'), #产品名称
         StringStruct(u'ProductVersion', u'1,0,0,0')]) #产品版本
       ]), 
     VarFileInfo([VarStruct(u'Translation', [1033, 1200])])

@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['get_systeminfo.py'],
-             pathex=['c:/python27', 'D:\\github\\scripts\\python\\makefile'],
+             pathex=['c:/python27', 'D:\\scripts\\python\\makefile'],
              binaries=[],
              datas=[],
              hiddenimports=[],

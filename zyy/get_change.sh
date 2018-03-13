@@ -1,23 +1,5 @@
 #!/bin/bash
 #按照数值大小替换规格数据
-
-get_spec ( ) {
-	get_spec=`echo $1|awk -F, '{print $7}'`
-	get_spec_1=`echo $get_spec|awk -Fx '{print $1}'`
-	get_spec_2=`echo $get_spec|awk -Fx '{print $2}'`
-	get_spec_3=`echo $get_spec|awk -Fx '{print $3}'`
-	if [ "$get_spec_1" -gt "$get_spec_2 "];then
-		new_spec=$get_spec
-	else
-		if [ ! -n "$get_spec_3" ];then
-			new_spec="$get_spec_2\x$get_spec_1"
-		else
-			new_spec="$get_spec_2\x$get_spec_1\x$get_spec_3"
-		fi
-	  fi
-	}
-
-
 ##################################################################################
 
 file_=`wc -l goods.csv|awk '{print $1}'`
