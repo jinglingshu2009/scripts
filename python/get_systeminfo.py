@@ -1,7 +1,21 @@
 #!/usr/bin/python
 #^_^ coding:utf-8 ^_^
 #Filename:get_systeminfo.py
-import sys os wmi time platform
+import sys
+import os
+import wmi
+import time
+import platform
+import psutil
+import re
+
+def check_ip(ipAddr):
+    #判断输入地址是否为IPV4
+  compile_ip=re.compile('^(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[1-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)$')
+  if compile_ip.match(ipAddr):
+    return True
+  else:
+    return False
 
 def SYS_OS():
     c = wmi.WMI()
@@ -24,15 +38,24 @@ def SYS_MEM():
     a=1
     for Memory in c.Win32_PhysicalMemory():
         # 获取内存信息
-        print "SYS_MEM:%s: %.fMB"% (a,int(Memory.Capacity) / 1048576);
+        print "SYS_MEM%s: %.fMB"% (a,int(Memory.Capacity) / 1048576);
         a=a+1
 
 def SYS_NIC():
     c = wmi.WMI()
+
     # 获取MAC和IP地址
     #print wmi.WMI().Win32_NetworkAdapterConfiguration(IPEnabled=1)
+    z=1
     for interface in c.Win32_NetworkAdapterConfiguration(IPEnabled=1):
-        print "NIC :%s; MAC:%s; IP:%s" % (interface.Description,interface.MACAddress,interface.IPAddress);
+        print 'NET%s = %s\n' % (z,interface.Description),'MAC = %s' % (interface.MACAddress)
+        b = 1
+        for IPAddress in interface.IPAddress:
+            if  check_ip(IPAddress):
+                print 'IP%s = %s' % (b, IPAddress)
+                b = b + 1
+        z=z+1
+        #print "NIC%s:%s; MAC:%s; IP:%s" % (b,interface.Description,interface.MACAddress,interface.IPAddress);
     #for ip_address in interface.IPAddress:
      #   print "ip_add: %s" % ip_address
 
@@ -47,13 +70,17 @@ def SYS_DISK():
     #获取硬盘使用百分情况
     #for disk in c.Win32_LogicalDisk (DriveType=3):
      #   print disk.Caption, "%0.2f%% free" % (100.0 * long (disk.FreeSpace) / long (disk.Size))
-#cwd=os.getcwd()
-#log_file=cwd+'/get_systeminfo.log'
-f
+
+log_file=os.getcwd()+'/get_systeminfo.log'
+output=sys.stdout
+log=open(log_file,'w+')
+sys.stdout=log
 SYS_OS()
 SYS_CPU()
 SYS_MEM()
-SYS_NIC()
+#SYS_NIC()
 SYS_DISK()
-time.sleep(15)
-
+time.sleep(2)
+log.close()
+sys.stdout=output
+SYS_NIC()
