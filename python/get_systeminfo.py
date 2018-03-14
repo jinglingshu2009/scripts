@@ -1,6 +1,8 @@
 #!/usr/bin/python
 #^_^ coding:utf-8 ^_^
 #Filename:get_systeminfo.py
+
+
 import sys
 import os
 import wmi
@@ -8,6 +10,8 @@ import time
 import platform
 import psutil
 import re
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 def check_ip(ipAddr):
     #判断输入地址是否为IPV4
@@ -43,12 +47,11 @@ def SYS_MEM():
 
 def SYS_NIC():
     c = wmi.WMI()
-
     # 获取MAC和IP地址
     #print wmi.WMI().Win32_NetworkAdapterConfiguration(IPEnabled=1)
     z=1
     for interface in c.Win32_NetworkAdapterConfiguration(IPEnabled=1):
-        print 'NET%s = %s\n' % (z,interface.Description),'MAC = %s' % (interface.MACAddress)
+        print 'NET%s:%s\n' % (z,interface.Description),'MAC = %s' % (interface.MACAddress)
         b = 1
         for IPAddress in interface.IPAddress:
             if  check_ip(IPAddress):
@@ -78,9 +81,9 @@ sys.stdout=log
 SYS_OS()
 SYS_CPU()
 SYS_MEM()
-#SYS_NIC()
+SYS_NIC()
 SYS_DISK()
-time.sleep(2)
+#time.sleep(2)
 log.close()
 sys.stdout=output
-SYS_NIC()
+#SYS_NIC()
