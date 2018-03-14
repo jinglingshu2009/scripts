@@ -1,0 +1,20 @@
+SYS_OS: Windows-7-6.1.7601-SP1 32-bit
+SYS_CPU: Intel(R) Core(TM)2 Duo CPU     T5870  @ 2.00GHz
+SYS_MEM1: 2048MB
+SYS_MEM2: 1024MB
+NET1:Intel(R) PRO/Wireless 3945ABG Network Connection
+MAC = 00:1F:3C:B3:D3:E9
+IP1 = 192.168.70.111
+NET2:VMware Virtual Ethernet Adapter for VMnet1
+MAC = 00:50:56:C0:00:01
+IP1 = 192.168.158.1
+NET3:VMware Virtual Ethernet Adapter for VMnet8
+MAC = 00:50:56:C0:00:08
+IP1 = 192.168.109.1
+SYS_DISK_ID: Hitachi HTS543216L9A300 ATA Device
+Disk #0, Partition #0 C: 9.30% free
+Disk #0, Partition #1 D: 34.89% free
+Disk #0, Partition #1 E: 8.04% free
+Disk #0, Partition #1 F: 35.86% free
+Disk #0, Partition #1 G: 35.98% free
+Disk #0, Partition #1 H: 26.69% free
