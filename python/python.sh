@@ -3,23 +3,25 @@ case 	$1 in
  	home)
 		run_python=c:/python27/python.exe
 		install_python=c:/python27/Scripts/pyinstaller
+		jupyter=c:/python27/Scripts/jupyter-notebook
 		#install_python=c:/python27/Scripts/cxfreeze
 		install_dir=makefile
 	;;
  	cyber)
 		run_python=c:/python27/python.exe
 		install_python=c:/python27/Scripts/pyinstaller
+		jupyter=c:/python27/Scripts/jupyter-notebook
 		#install_python=c:/python27/Scripts/cxfreeze
 		install_dir=makefile
 	;;
 	*)
-		echo "$0 {home|cyber} 	{run|install|debug}	python-script " && exit
+		echo "$0 {home|cyber} 	{run|jupyter|install|debug}	python-script " && exit
 	;;
 esac
 case	$2 in
 	run)
 		if [ ! $3 ];then
-			echo "$0 {home|cyber} 	{run|install|debug}	python-script"
+		echo "$0 {home|cyber} 	{run|jupyter|install|debug}	python-script " 
 		else
 			start $run_python $3
 		fi
@@ -27,7 +29,7 @@ case	$2 in
 	;;
 	install) 
 		if [ ! $3 ];then
-			echo "$0 {home|cyber} 	{run|install|debug}	python-script"
+			echo "$0 {home|cyber} 	{run|jupyter|install|debug}	python-script"
 		else
 			#第 1 种打包方式(打包成exe程序和相关依赖)
 			#start $install_python $3 --target-dir $install_dir 
@@ -50,12 +52,19 @@ case	$2 in
 	;;
 	debug)
 		if [ ! $3 ];then
-			echo "$0 {home|cyber} 	{run|install|debug}	python-script"
+			echo "$0 {home|cyber} 	{run|jupyter|install|debug}	python-script"
 		else
 			start $install_python   -p `dirname $run_python` -i a.ico -F $3  -d --clean 
 		fi
 	;;
+	jupyter)
+		if [ ! $2 ];then
+			echo "$0 {home|cyber} 	{run|jupyter|install|debug}	python-script"
+		else
+			start $jupyter 
+		fi
+	;;
 	*)
-		echo "$0 {home|cyber} 	{run|install|debug}	python-script " && exit
+		echo "$0 {home|cyber} 	{run|jupyter|install|debug}	python-script " && exit
 	;;
 esac
