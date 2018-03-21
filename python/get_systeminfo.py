@@ -78,6 +78,7 @@ log_file=os.getcwd()+'/get_systeminfo.log'
 output=sys.stdout
 log=open(log_file,'w+')
 sys.stdout=log
+
 SYS_OS()
 SYS_CPU()
 SYS_MEM()
@@ -86,4 +87,3 @@ SYS_DISK()
 #time.sleep(2)
 log.close()
 sys.stdout=output
-#SYS_NIC()
