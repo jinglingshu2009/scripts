@@ -1,39 +1,39 @@
 
-hashlib module
-# m = hashlib.md5()
-# m.update(b"hello")
-# print(m.digest())#进行二进制加密
-# print(len(m.hexdigest())) #16进制长度
-# print(m.hexdigest())#16进制格式hash
-# >>>b']A@*\xbcK*v\xb9q\x9d\x91\x10\x17\xc5\x92'
-# >>>32
-# >>>5d41402abc4b2a76b9719d911017c592
-#md5
-# hash = hashlib.md5()
-# hash.update(('admin').encode())
-# print(hash.hexdigest())
-# >>>21232f297a57a5a743894a0e4a801fc3
-#sha1
-# hash = hashlib.sha1()
-# hash.update(('admin').encode())
-# print(hash.hexdigest())
-# >>>d033e22ae348aeb5660fc2140aec35850c4da997
-#sha256
-# hash = hashlib.sha256()
-# hash.update(('admin').encode())
-# print(hash.hexdigest())
-# >>>8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
-#sha384
-# hash = hashlib.sha384()
-# hash.update(('admin').encode())
-# print(hash.hexdigest())
-# >>>9ca694a90285c034432c9550421b7b9dbd5c0f4b6673f05f6dbce58052ba20e4248041956ee8c9a2ec9f10290cdc0782
-#sha512
-# hash = hashlib.sha512()
-# hash.update(('admin').encode())
-# print(hash.hexdigest())
-# >>>c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec
-#更吊的
+ashlib module
+ m = hashlib.md5()
+ m.update(b"hello")
+ print(m.digest())#进行二进制加密
+ print(len(m.hexdigest())) #16进制长度
+ print(m.hexdigest())#16进制格式hash
+ >>>b']A@*\xbcK*v\xb9q\x9d\x91\x10\x17\xc5\x92'
+ >>>32
+ >>>5d41402abc4b2a76b9719d911017c592
+md5
+ hash = hashlib.md5()
+ hash.update(('admin').encode())
+ print(hash.hexdigest())
+ >>>21232f297a57a5a743894a0e4a801fc3
+sha1
+ hash = hashlib.sha1()
+ hash.update(('admin').encode())
+ print(hash.hexdigest())
+ >>>d033e22ae348aeb5660fc2140aec35850c4da997
+sha256
+ hash = hashlib.sha256()
+ hash.update(('admin').encode())
+ print(hash.hexdigest())
+ >>>8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+sha384
+ hash = hashlib.sha384()
+ hash.update(('admin').encode())
+ print(hash.hexdigest())
+ >>>9ca694a90285c034432c9550421b7b9dbd5c0f4b6673f05f6dbce58052ba20e4248041956ee8c9a2ec9f10290cdc0782
+sha512
+ hash = hashlib.sha512()
+ hash.update(('admin').encode())
+ print(hash.hexdigest())
+ >>>c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec
+更吊的
 import hmac
 h = hmac.new(('wueiqi').encode())
 h.update(('hellowo').encode())
