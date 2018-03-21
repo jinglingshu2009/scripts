@@ -1,3 +1,152 @@
+
+ashlib module
+ m = hashlib.md5()
+ m.update(b"hello")
+ print(m.digest())#进行二进制加密
+ print(len(m.hexdigest())) #16进制长度
+ print(m.hexdigest())#16进制格式hash
+ >>>b']A@*\xbcK*v\xb9q\x9d\x91\x10\x17\xc5\x92'
+ >>>32
+ >>>5d41402abc4b2a76b9719d911017c592
+md5
+ hash = hashlib.md5()
+ hash.update(('admin').encode())
+ print(hash.hexdigest())
+ >>>21232f297a57a5a743894a0e4a801fc3
+sha1
+ hash = hashlib.sha1()
+ hash.update(('admin').encode())
+ print(hash.hexdigest())
+ >>>d033e22ae348aeb5660fc2140aec35850c4da997
+sha256
+ hash = hashlib.sha256()
+ hash.update(('admin').encode())
+ print(hash.hexdigest())
+ >>>8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+sha384
+ hash = hashlib.sha384()
+ hash.update(('admin').encode())
+ print(hash.hexdigest())
+ >>>9ca694a90285c034432c9550421b7b9dbd5c0f4b6673f05f6dbce58052ba20e4248041956ee8c9a2ec9f10290cdc0782
+sha512
+ hash = hashlib.sha512()
+ hash.update(('admin').encode())
+ print(hash.hexdigest())
+ >>>c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec
+更吊的
+import hmac
+h = hmac.new(('wueiqi').encode())
+h.update(('hellowo').encode())
+print(h.hexdigest())
+
+shutil module
+shutil.copyfileobj(fsrc, fdst[, length]) # 将文件内容拷贝到另一个文件中，可以部分内容
+shutil.copyfile(src, dst) # 拷贝文件
+shutil.copymode(src, dst) # 仅拷贝权限。内容、组、用户均不变
+shutil.copystat(src, dst) # 拷贝状态的信息，包括：mode bits, atime, mtime, flags
+shutil.copy(src, dst)  # 拷贝文件和权限
+shutil.copy2(src, dst) # 拷贝文件和状态信息
+shutil.rmtree(path[, ignore_errors[, onerror]]) # 递归的去删除文件
+shutil.move(src, dst) # 递归的去移动文件(删除文件)
+shutil.make_archive(base_name, format,...)
+#base_name： 压缩包的文件名，也可以是压缩包的路径。只是文件名时，则保存至当前目录，否则保存至指定路径，
+#format：    压缩包种类，“zip”, “tar”, “bztar”，“gztar”
+#root_dir：    要压缩的文件夹路径（默认当前目录）
+#owner：    用户，默认当前用户
+#group：    组，默认当前组
+#logger：    用于记录日志，通常是logging.Logger对象
+eg:将 /Users/wupeiqi/Downloads/test 下的文件打包放置当前程序目录
+   ret = shutil.make_archive("wwwwwwwwww", 'gztar', root_dir='/Users/wupeiqi/Downloads/test')
+eg:将 /Users/wupeiqi/Downloads/test 下的文件打包放置 /Users/wupeiqi/目录
+   ret = shutil.make_archive("/Users/wupeiqi/wwwwwwwwww", 'gztar', root_dir='/Users/wupeiqi/Downloads/test')
+
+
+sys module
+print(sys.argv )   #命令行参数List，第一个元素是程序本身路径
+sys.exit(n)        #退出程序，正常退出时exit(0)
+print(sys.version )      #获取Python解释程序的版本信息
+print(sys.maxint)         #最大的Int值
+sys.path           #返回模块的搜索路径，初始化时使用PYTHONPATH环境变量的值
+print(sys.platform)      #返回操作系统平台名称
+
+random modult
+随机数
+print(random.random())#0到的随机数，是一个float浮点数
+print(random.randint(1,2))#一和二随机
+print(random.randrange(1,10))#一到十随机（记得range只有头没有尾巴
+chr(random.randint(65,90))#chr是ascii码表,65,90是（A-Z）
+import  string
+print(''.join(random.sample(string.ascii_lowercase+string.digits,5)))#随机验证码可用（5位含数字和密码）
+print(''.join(random.sample(string.ascii_lowercase+string.digits,5)))#随机验证码可用（5位含数字和密码）
+#打印a-z
+print(string.ascii_lowercase)#一
+#打印A-Z
+print(string.ascii_letters)#二
+
+time & datetime module
+time.clock() #返回处理器时间,3.3开始已废弃 , 改成了time.process_time()测量处理器运算时间,不包括sleep时间,不稳定,mac上测不出来
+time.sleep()#睡几秒
+time.time() #获取时间戳
+print(time.localtime()) 
+	 >>>time.struct_time(tm_year=2016, tm_mon=8, tm_mday=22, tm_hour=9, tm_min=32, tm_sec=28, tm_wday=0, tm_yday=235, tm_isdst=0)
+	#tm_year(年)，tm_mon(月),tm_mday(日),tm_hour(时),tm_min(分),tm_sec(秒),tm_wday（星期，从0到6,0代表周一，一次类推）,tm_yday(这一年中的地几天),tm_isdst(夏令时间标志)
+
+time.altzone  #返回与utc时间的时间差,以秒计算\
+time.asctime() #返回时间格式"Fri Aug 19 11:14:16 2016",
+time.localtime() #返回本地时间 的struct time对象格式
+time.gmtime(time.time()-800000) #返回utc时间的struc时间对象格式
+time.asctime(time.localtime()) #返回时间格式"Fri Aug 19 11:14:16 2016",
+time.ctime() #返回Fri Aug 19 12:38:29 2016 格式, 同上
+# 日期字符串 转成  时间戳
+string_2_struct = time.strptime("2016/05/22","%Y/%m/%d") #将 日期字符串 转成 struct时间对象格式
+struct_2_stamp = time.mktime(string_2_struct) #将struct时间对象转成时间戳
+#将时间戳转为字符串格式
+print(time.gmtime(time.time()-86640)) #将utc时间戳转换成struct_time格式
+print(time.strftime("%Y-%m-%d %H:%M:%S",time.gmtime()) ) #将utc struct_time格式转成指定的字符串格式
+#时间加减
+print(datetime.datetime.now()) #返回 2016-08-19 12:47:03.941925
+print(datetime.date.fromtimestamp(time.time()) )  # 时间戳直接转成日期格式 2016-08-19
+print(datetime.datetime.now() )
+print(datetime.datetime.now() + datetime.timedelta(3)) #当前时间+3天
+print(datetime.datetime.now() + datetime.timedelta(-3)) #当前时间-3天
+print(datetime.datetime.now() + datetime.timedelta(hours=3)) #当前时间+3小时
+print(datetime.datetime.now() + datetime.timedelta(minutes=30)) #当前时间+30分
+c_time  = datetime.datetime.now()
+print(c_time.replace(minute=3,hour=2)) #时间替换
+
+os module
+os.getcwd() 获取当前工作目录，即当前python脚本工作的目录路径
+os.chdir("dirname")  改变当前脚本工作目录；相当于shell下cd
+os.curdir  返回当前目录: ('.')
+os.pardir  获取当前目录的父目录字符串名：('..')
+os.makedirs('dirname1/dirname2')    可生成多层递归目录
+os.removedirs('dirname1')    若目录为空，则删除，并递归到上一级目录，如若也为空，则删除，依此类推
+os.mkdir('dirname')    生成单级目录；相当于shell中mkdir dirname
+os.rmdir('dirname')    删除单级空目录，若目录不为空则无法删除，报错；相当于shell中rmdir dirname
+os.listdir('dirname')    列出指定目录下的所有文件和子目录，包括隐藏文件，并以列表方式打印
+os.remove()  删除一个文件
+os.rename("oldname","newname")  重命名文件/目录
+os.stat('path/filename')  获取文件/目录信息
+os.sep    输出操作系统特定的路径分隔符，win下为"\\",Linux下为"/"
+os.linesep    输出当前平台使用的行终止符，win下为"\t\n",Linux下为"\n"
+os.pathsep    输出用于分割文件路径的字符串
+os.name    输出字符串指示当前使用平台。win->'nt'; Linux->'posix'
+os.system("bash command")  运行shell命令，直接显示
+os.environ  获取系统环境变量
+os.path.abspath(path)  返回path规范化的绝对路径
+os.path.split(path)  将path分割成目录和文件名二元组返回
+os.path.dirname(path)  返回path的目录。其实就是os.path.split(path)的第一个元素
+os.path.basename(path)  返回path最后的文件名。如何path以／或\结尾，那么就会返回空值。即os.path.split(path)的第二个元素
+os.path.exists(path)  如果path存在，返回True；如果path不存在，返回False
+os.path.isabs(path)  如果path是绝对路径，返回True
+os.path.isfile(path)  如果path是一个存在的文件，返回True。否则返回False
+os.path.isdir(path)  如果path是一个存在的目录，则返回True。否则返回False
+os.path.join(path1[, path2[, ...]])  将多个路径组合后返回，第一个绝对路径之前的参数将被忽略
+os.path.getatime(path)  返回path所指向的文件或者目录的最后存取时间
+os.path.getmtime(path)  返回path所指向的文件或者目录的最后修改时间
+
+
+
 cx_freeze打包
 http://blog.csdn.net/wangdamozhizhou/article/details/18135889
 

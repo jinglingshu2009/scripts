@@ -74,6 +74,7 @@ def SYS_DISK():
     #for disk in c.Win32_LogicalDisk (DriveType=3):
      #   print disk.Caption, "%0.2f%% free" % (100.0 * long (disk.FreeSpace) / long (disk.Size))
 
+<<<<<<< HEAD
 log_file=os.getcwd()+'/get_systeminfo.log'
 output=sys.stdout
 log=open(log_file,'w+')
@@ -87,3 +88,43 @@ SYS_DISK()
 #time.sleep(2)
 log.close()
 sys.stdout=output
+=======
+def sys_disk():
+    k=1
+    partitions=psutil.disk_partitions()
+    #使用fsutil方式获取磁盘信息
+    for partitions_list in partitions:
+        if partitions_list.fstype == "" :
+            partitions_fstype=partitions_list.opts
+            disk_total=0
+        else:
+            partitions_fstype=partitions_list.fstype
+            disk_total=psutil.disk_usage(partitions_list.device).total/1048576/1024 
+            #disk_total分区总空间大小，单位GB 
+            disk_used=psutil.disk_usage(partitions_list.device).used/1048576/1024   
+            #disk_used已使用空间大小，单位GB 
+            disk_free=psutil.disk_usage(partitions_list.device).free/1048576/1024   
+            #disk_free剩余空间大小，单位GB 
+            disk_percent=psutil.disk_usage(partitions_list.device).percent          
+            #disk_percent磁盘使用率，单位%
+            print '分区%s:%s Type:%s total:%sGB used:%sGB   free:%sGB   percent:%s' % (k,partitions_list.device,partitions_fstype,disk_total,disk_used,disk_free,disk_percent)
+        k=k+1
+
+
+
+
+#log_file=os.getcwd()+'/get_systeminfo.log'
+#output=sys.stdout
+#log=open(log_file,'w+')
+#sys.stdout=log
+#SYS_OS()
+#SYS_CPU()
+#SYS_MEM()
+#SYS_NIC()
+#SYS_DISK()
+sys_disk()
+time.sleep(2)
+#log.close()
+#sys.stdout=output
+#SYS_NIC()
+>>>>>>> e76469dc3e8af108a964eb9e4efeb58927260ec4
