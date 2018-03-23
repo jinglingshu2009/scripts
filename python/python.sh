@@ -1,4 +1,6 @@
 #!/bin/bash
+dirname=`pwd`
+
 case 	$1 in
  	home)
 		run_python=c:/python27/python.exe
@@ -61,7 +63,16 @@ case	$2 in
 		if [ ! $2 ];then
 			echo "$0 {home|cyber} 	{run|jupyter|install|debug}	python-script"
 		else
-			start $jupyter 
+			tmp_jupyter=`pwd`/tmp_jupyter #设置jupyter编写临时pyther脚本目录
+			if [ ! -d $tmp_jupyter ];then
+				mkdir $tmp_jupyter
+				cd $tmp_jupyter
+				start $jupyter
+			else
+				cd $tmp_jupyter
+				start $jupyter
+			fi
+				
 		fi
 	;;
 	*)
