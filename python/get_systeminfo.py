@@ -92,7 +92,7 @@ def sys_disk():
             #disk_free剩余空间大小，单位GB 
             disk_percent=psutil.disk_usage(partitions_list.device).percent          
             #disk_percent磁盘使用率，单位%
-            print '分区%s:%s Type:%s total:%sGB used:%sGB   free:%sGB   percent:%s' % (k,partitions_list.device,partitions_fstype,disk_total,disk_used,disk_free,disk_percent)
+            print "分区%s:%s Type:%s total:%sGB used:%sGB   free:%sGB   percent:%s" % (k,partitions_list.device,partitions_fstype,disk_total,disk_used,disk_free,disk_percent)
         k=k+1
 
 
