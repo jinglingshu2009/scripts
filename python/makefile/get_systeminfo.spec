@@ -3,8 +3,8 @@
 block_cipher = None
 
 
-a = Analysis(['get_systeminfo.py'],
-             pathex=['c:/python27', 'D:\\scripts\\python\\makefile'],
+a = Analysis(['..\\get_systeminfo.py'],
+             pathex=['c:/python27', 'D:\\github\\scripts\\python\\makefile'],
              binaries=[],
              datas=[],
              hiddenimports=[],
