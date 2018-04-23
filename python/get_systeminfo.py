@@ -74,7 +74,6 @@ def SYS_DISK():
     #for disk in c.Win32_LogicalDisk (DriveType=3):
      #   print disk.Caption, "%0.2f%% free" % (100.0 * long (disk.FreeSpace) / long (disk.Size))
 
-<<<<<<< HEAD
 log_file=os.getcwd()+'/get_systeminfo.log'
 output=sys.stdout
 log=open(log_file,'w+')
@@ -88,7 +87,6 @@ SYS_DISK()
 #time.sleep(2)
 log.close()
 sys.stdout=output
-=======
 def sys_disk():
     k=1
     partitions=psutil.disk_partitions()
@@ -127,4 +125,3 @@ time.sleep(2)
 #log.close()
 #sys.stdout=output
 #SYS_NIC()
->>>>>>> e76469dc3e8af108a964eb9e4efeb58927260ec4
