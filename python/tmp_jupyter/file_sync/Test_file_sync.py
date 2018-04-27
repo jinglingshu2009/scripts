@@ -102,7 +102,6 @@ else:
         old_file_md5=file_list[0].split(".")[0].split("-")[1]
         if file_md5 == old_file_md5:
             os.remove(file_path+os.sep+file_list[0])
-            print "thsi is "
             print file_path+os.sep+file_list[0]
         del file_list[0]
         #    print "%s %s" %  (len(file_list)/2,file_md5,old_file_md5)
