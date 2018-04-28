@@ -3,6 +3,7 @@
 import hashlib
 import os
 import time
+import timeit
 
 def  get_md5(input_file,md5="off"):
     '''
@@ -27,11 +28,12 @@ def  get_md5(input_file,md5="off"):
         else:
             return ""
 ############################################################
-file_type="txt,xml"
+file_type="txt"
 file_path="C:\Users\Administrator\Desktop\\test"
 file_size="1kb"   #SIZE|KB|MB|GB
-file_num=10000
+file_num=20000
 check_md5 = "on"  #on|off
+sync_mode="recv"  #send|recv
 
 '''
 for num in range(file_num+1):
@@ -87,14 +89,20 @@ for num in range(file_num+1):
             fp.truncate(G_size)
             fp.close()
 '''
-file_list=os.listdir(file_path)
-n=1
-for del_file in range (len(file_list)):
-
-     del_filename=file_path+os.sep+file_list[del_file]
-     #os.remove(del_filename)
-     del file_list[1000]
-     print len(file_list)
-     time.sleep(0.01)
-     print "%s %s" %  (del_file,del_filename)
-     n = n + 1
+if sync_mode.upper() == "SEND" :
+    file_list=os.listdir(file_path)
+    for del_file in range (len(file_list)/2):
+         os.remove(file_path+os.sep+file_list[0])
+         del file_list[0]
+         print "%s %s" %  (len(file_list)/2,file_path+os.sep+file_list[0])
+else:
+    file_list=os.listdir(file_path)
+    for del_file in range (len(file_list)/2):
+        file_md5 = get_md5(file_path+os.sep+file_list[0], check_md5)
+        old_file_md5=file_list[0].split(".")[0].split("-")[1]
+        if file_md5 == old_file_md5:
+            os.remove(file_path+os.sep+file_list[0])
+            print file_path+os.sep+file_list[0]
+        del file_list[0]
+        #    print "%s %s" %  (len(file_list)/2,file_md5,old_file_md5)
+        #'''
