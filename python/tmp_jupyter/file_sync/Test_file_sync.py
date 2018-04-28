@@ -3,7 +3,9 @@
 import hashlib
 import os
 import time
-import timeit
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 def  get_md5(input_file,md5="off"):
     '''
@@ -22,22 +24,33 @@ def  get_md5(input_file,md5="off"):
     else:
         if md5 == "on":
             md5file = open(input_file,'rb')
-            input_file_md5 ="-%s" % hashlib.md5(md5file.read()).hexdigest()
+            input_file_md5 ="-%s" % (hashlib.md5(md5file.read()).hexdigest())
             md5file.close()
             return  input_file_md5
         else:
             return ""
+def compare(x, y):
+    # 设置文件存储目录
+    path = file_path
+    # 按生成时间将文件排序
+    stat_x = os.stat(path + "/" + x)
+    stat_y = os.stat(path + "/" + y)
+    if stat_x.st_ctime < stat_y.st_ctime:
+        return -1
+    elif stat_x.st_ctime > stat_y.st_ctime:
+        return 1
+    else:
+        return 0
 ############################################################
-file_type="txt"
+file_type="txt,rar"
 file_path="C:\Users\Administrator\Desktop\\test"
-file_size="1kb"   #SIZE|KB|MB|GB
-file_num=20000
-check_md5 = "on"  #on|off
+file_size="10size"   #SIZE|KB|MB|GB
+file_num=100
+check_md5 = "on"   #on|off
 sync_mode="recv"  #send|recv
-
-'''
-for num in range(file_num+1):
-    #将文件后缀转换为文件后缀列表
+############################################################
+for num in range(1,file_num+1):
+    #将文件后缀转换为文件后缀列表你
     _list=file_type.split(",")
     for file_type_num in range(len(_list)):
         #获取文件完整名称（exp编号.后缀）
@@ -89,20 +102,48 @@ for num in range(file_num+1):
             fp.truncate(G_size)
             fp.close()
 '''
+#获取目录中文件列表
+file_list=os.listdir(file_path)
+#将文件以生成时间排序
+file_list.sort(compare)
+#同步模式：发送（SEND）
 if sync_mode.upper() == "SEND" :
-    file_list=os.listdir(file_path)
     for del_file in range (len(file_list)/2):
-         os.remove(file_path+os.sep+file_list[0])
-         del file_list[0]
-         print "%s %s" %  (len(file_list)/2,file_path+os.sep+file_list[0])
-else:
-    file_list=os.listdir(file_path)
-    for del_file in range (len(file_list)/2):
-        file_md5 = get_md5(file_path+os.sep+file_list[0], check_md5)
-        old_file_md5=file_list[0].split(".")[0].split("-")[1]
-        if file_md5 == old_file_md5:
-            os.remove(file_path+os.sep+file_list[0])
-            print file_path+os.sep+file_list[0]
+        if check_md5 == "on":
+            # 开启文件删除前的MD5校验
+            file_md5 = get_md5(file_path + os.sep + file_list[0], check_md5).split('-')[1]
+            old_file_md5 = file_list[0].split(".")[0].split("-")[1].strip()
+            # 校验文件MD5，校验正确删除文件并打印日志，不正确保留并打印错误
+            if file_md5 == old_file_md5:
+                os.remove(file_path + os.sep + file_list[0])
+                print "%s   %s  %s  %s" % (del_file + 1, "delete", "ok", file_path + os.sep + file_list[0])
+            else:
+                print "%s   %s  %s  %s" % (del_file + 1, "delete", "error", file_path + os.sep + file_list[0])
+                # print "校验文件MD5失败，请排查文件%s" %  file_list[0]
+                pass
+        else:
+            # 关闭文件删除前的MD5校验
+            os.remove(file_path + os.sep + file_list[0])
+            print "%s   %s  %s  %s" % (del_file + 1, "delete", "ok", file_path + os.sep + file_list[0])
         del file_list[0]
-        #    print "%s %s" %  (len(file_list)/2,file_md5,old_file_md5)
-        #'''
+#同步模式：接收（RECV）
+else:
+    for del_file in range (len(file_list)/2):
+        if check_md5 == "on":
+            #开启文件删除前的MD5校验
+            file_md5 = get_md5(file_path+os.sep+file_list[0], check_md5).split('-')[1]
+            old_file_md5 = file_list[0].split(".")[0].split("-")[1].strip()
+            #校验文件MD5，校验正确删除文件并打印日志，不正确保留并打印错误。
+            if file_md5 == old_file_md5:
+                os.remove(file_path+os.sep+file_list[0])
+                print "%s   %s  %s  %s" % (del_file+1,"delete","ok",file_path+os.sep+file_list[0])
+            else:
+                print "%s   %s  %s  %s" % (del_file+1, "delete", "error", file_path + os.sep + file_list[0])
+                #print "校验文件MD5失败，请排查文件%s" %  file_list[0]
+                pass
+        else:
+            # 关闭文件删除前的MD5校验
+            os.remove(file_path + os.sep + file_list[0])
+            print "%s   %s  %s  %s" % (del_file+1, "delete", "ok", file_path + os.sep + file_list[0])
+        del file_list[0]
+'''
