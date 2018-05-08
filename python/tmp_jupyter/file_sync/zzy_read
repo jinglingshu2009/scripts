@@ -1,0 +1,43 @@
+def bubble_sort(nums):
+    for j in range(len(nums)):
+        for i in range(0,len(nums)-j-1,1):
+            if nums[i] >= nums[i+1]:
+                nums[i],nums[i+1] = nums[i+1],nums[i]
+
+src_file="D:\github\scripts\zyy\src.txt"
+i=0
+with open(src_file,'r') as f:
+    s = f.read()
+    s_list=s.split("\n")
+    for tmp_data in s_list:
+        i=i+1
+        if len(tmp_data) == 6:
+            _data=tmp_data
+        elif len(tmp_data) ==12:
+            _data = tmp_data
+        elif len(tmp_data) ==0:
+            _data = ""
+        else:
+            #zz=len(tmp_data)
+            if tmp_data.find("/") != -1:
+                if tmp_data.split("x")[0] > tmp_data.split("x")[1]:
+                    _data="%sx%sx%s" % (tmp_data.split("x")[0],tmp_data.split("x")[1],tmp_data.split("x")[2])
+                else:
+                    _data = "%sx%sx%s" % (tmp_data.split("x")[1],tmp_data.split("x")[0],tmp_data.split("x")[2])
+            else:
+                new_data=tmp_data.split("x")
+                if len(new_data) ==2:
+                    if new_data[1]>=new_data[0]:
+                        _data="%sx%s" % (new_data[1],new_data[0])
+                    else:
+                        _data = "%sx%s" % (new_data[0], new_data[1])
+                elif len(new_data) ==3:
+                    list_data=sorted(new_data,reverse = True)
+                    _data= "%s%s%sx%sx%s" % (new_data,list_data,list_data[2], list_data[1],list_data[0])
+                pass
+                #print tmp_data
+            #_data=tmp_data.split("x")
+            #if
+            #if _data[0] > _data[1]:
+            #print len(_data),_data
+        print i,_data

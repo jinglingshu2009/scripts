@@ -3,6 +3,7 @@
 # Filename:file.py
 import os
 import time
+'''
 cwd=os.getcowd()
 file=cwd+'/file.log'
 print(file);
@@ -13,3 +14,8 @@ print(f_read)
 print "read=-----read"
 f.close()
 time.sleep(5)
+'''
+a=0
+while [ 1 ]:
+    a=a+1
+    print a,time.localtime()[0:6]
