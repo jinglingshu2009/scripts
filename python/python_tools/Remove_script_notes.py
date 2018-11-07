@@ -12,27 +12,32 @@ import os
 import sys
 # script = sys.argv[1]
 # 获取第2个位移变量(第1个参数)，sys.argv[0]:脚本自身名称
-scripts = "D:\\test\Auto_file_copy_old1.bat"
+scripts = "ceshi.bat"
 
 for id in range (1):
     script = scripts.split()[id]
     script_name = os.path.dirname(os.path.realpath(__file__)) + os.sep + os.path.basename(script)
     # 获取脚本全路径+名称
+    exe_script = script_name.split(".")[0] + "_X." + script_name.split(".")[1]
+    # 获取移除注视后的可执行文件名称
+    if os.path.exists(exe_script) :
+        # 判断可执行脚本是否存在，若存在先删除可执行脚本
+        os.remove(exe_script)
     script_type =  os.path.basename(script).split(".")[1]
-    # 获取脚本后缀类型名称
+    # 获取脚本后缀类型名称（bat、pyt、sh）
     if script_type == "bat" :
-     # 处理bat脚本中"REM"注释
+        # 判断脚本后缀为bat
         sn = 0
-
-        for line in open (script,'rb'):
-            sn += 1
-            print(sn, line.find("::", 0, len(line)),line)
-            #print(sn, line.find('REM'))
-            if line.find('::') == -1:
-                pass
-                with open("D:\\test\Auto_file_copy-old_X.bat", "a") as f:
-                   f.write(line)
-        print(id,"This is bat script.",script)
+        for line in open (script_name):
+            # 逐行读取文件
+            if  line[:20].lstrip()[:3].upper() != "REM" :
+                # 逐行判断移除空格后的前3个字符转换为大写后不等于“REM”
+                if line[:20].lstrip()[:2].upper() != "::"   :
+                    # 逐行判断移除空格后的前2个字符转换为大写后不等于“REM”
+                    with open(exe_script,'a') as f:
+                        # 打开文件exe_script并逐行追加写入
+                        f.write(line)
+                        f.close()
     elif script_type == "sh" :
         print(id,"This is bash script.")
     elif script_type == "py" :
