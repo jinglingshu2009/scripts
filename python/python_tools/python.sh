@@ -1,6 +1,14 @@
 #!/bin/bash
 dirname=`pwd`
-
+"""
+名称：Remove_script_notes.py（移除bat/py/sh脚本中注释行）
+时间：2018-11-04 22:02:23
+作者：likun by  LK_SOFT
+版本：V1.0.0.0
+作用：
+    移除python、shell、bat脚本中的注释行，生成新的可执行脚本 script_X；
+    使用方法  Remove_script_notes.py  [python|shell|bat] scripts.
+"""
 case 	$1 in
  	home)
 		run_python=c:/python27/python.exe
