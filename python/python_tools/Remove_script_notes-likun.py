@@ -8,13 +8,6 @@
     移除python、shell、bat脚本中的注释行，生成新的可执行脚本 script_X；
     使用方法  Remove_script_notes.py  [python|shell|bat] scripts.
 """
-import os
-import sys
-#ceshi
-#ceshi
-#ceshi
-#ceshi
-
 # script = sys.argv[1]
 # 获取第2个位移变量(第1个参数)，sys.argv[0]:脚本自身名称
 scripts = "D:\\test\Auto_file_copy_old1.bat"
